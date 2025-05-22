@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Text;
+using System.Threading;
 using CoreScanner;
 
 namespace ZebraScannerHeadless
@@ -8,8 +11,17 @@ namespace ZebraScannerHeadless
         // Declare CoreScannerClass
         static CCoreScannerClass cCoreScannerClass;
 
+        // Variable to store latest barcode data
+        static string latestBarcode = "";
+        static object barcodeLock = new object();
+
         private static void Main(string[] args)
         {
+            // Start HTTP server in a separate thread
+            Thread httpThread = new Thread(StartHttpServer);
+            httpThread.IsBackground = true;
+            httpThread.Start();
+
             try
             {
                 // Instantiate CoreScanner Class
@@ -41,6 +53,7 @@ namespace ZebraScannerHeadless
 
                 // Keep the application running and ready for barcode scans
                 Console.WriteLine("Ready. Scan a barcode!");
+                Console.WriteLine("HTTP endpoint: http://localhost:5000/latest-scan/");
                 Console.WriteLine("Press Ctrl+C to exit.");
                 while (true)
                     System.Threading.Thread.Sleep(1000);
@@ -75,11 +88,47 @@ namespace ZebraScannerHeadless
                         }
                     }
                     Console.WriteLine($"[Decoded Barcode]: {ascii}");
+
+                    // Store decoded barcode for HTTP API
+                    lock (barcodeLock)
+                    {
+                        latestBarcode = ascii;
+                    }
                 }
             }
             catch
             {
                 Console.WriteLine("[Could not parse barcode data]");
+            }
+        }
+
+        // Simple HTTP server to expose the latest scanned barcode
+        static void StartHttpServer()
+        {
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add("http://localhost:5000/latest-scan/");
+            listener.Start();
+            Console.WriteLine("HTTP server listening at http://localhost:5000/latest-scan/");
+            while (true)
+            {
+                try
+                {
+                    HttpListenerContext context = listener.GetContext();
+                    string responseString;
+                    lock (barcodeLock)
+                    {
+                        responseString = string.IsNullOrEmpty(latestBarcode) ? "No scan yet." : latestBarcode;
+                    }
+                    byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                    context.Response.ContentLength64 = buffer.Length;
+                    context.Response.AddHeader("Access-Control-Allow-Origin", "*"); // allow PWA
+                    context.Response.OutputStream.Write(buffer, 0, buffer.Length);
+                    context.Response.OutputStream.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("HTTP server error: " + ex.Message);
+                }
             }
         }
     }
