@@ -1,0 +1,11 @@
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\bin\Debug\zebra-scanner-headless.exe.config
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\bin\Debug\zebra-scanner-headless.exe
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\bin\Debug\zebra-scanner-headless.pdb
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.csproj.AssemblyReference.cache
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.csproj.CoreCompileInputs.cache
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.exe
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.pdb
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.exe.config
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\Interop.CoreScanner.dll
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\obj\Debug\zebra-scanner-headless.csproj.ResolveComReference.cache
+C:\Users\Sim Sheng Qin\Documents\GitHub\S3\zebra-scanner-headless\bin\Debug\Interop.CoreScanner.dll
